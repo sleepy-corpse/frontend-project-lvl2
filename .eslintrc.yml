@@ -1,5 +1,3 @@
-rules:
-  no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
 env:
   browser: true
   es2021: true
@@ -14,3 +12,4 @@ rules:
     - error
     - ignorePackages
     - js: always
+  no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
