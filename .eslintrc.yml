@@ -1,3 +1,8 @@
+# Включает поддержку конструкции import.meta.url
+parserOptions:
+  ecmaVersion: 2020
+rules:
+  no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }] # разрешает подчёркивание в именах только для двух констант
 env:
   browser: true
   es2021: true

@@ -5,14 +5,10 @@ import _ from 'lodash';
 const makeAbsolutePath = (path) => resolve(process.cwd(), path);
 
 const genDiff = (path1, path2) => {
-  const absPath1 = fs.existsSync(path1) ? path1 : makeAbsolutePath(path1);
-  const absPath2 = fs.existsSync(path2) ? path2 : makeAbsolutePath(path2);
-  const file1 = fs.openSync(absPath1);
-  const file2 = fs.openSync(absPath2);
-  const fileObj1 = JSON.parse(fs.readFileSync(file1, 'utf8'));
-  const fileObj2 = JSON.parse(fs.readFileSync(file2, 'utf8'));
-  fs.closeSync(file1);
-  fs.closeSync(file2);
+  const absPath1 = makeAbsolutePath(path1);
+  const absPath2 = makeAbsolutePath(path2);
+  const fileObj1 = JSON.parse(fs.readFileSync(absPath1, 'utf8'));
+  const fileObj2 = JSON.parse(fs.readFileSync(absPath2, 'utf8'));
   const keys = [...Object.keys(fileObj1), ...Object.keys(fileObj2)];
   const sortedKeys = _.sortBy(keys);
   const result = sortedKeys.reduce((acc, key, index) => {
