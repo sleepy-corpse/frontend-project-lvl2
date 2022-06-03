@@ -1,7 +1,7 @@
-import genDiff from '../src/index.js';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import genDiff from '../src/index.js';
 
 const makePath = (filename) => {
   const __filename = fileURLToPath(import.meta.url);
@@ -22,4 +22,4 @@ test('empty files', () => {
   expect(genDiff(empty, empty)).toEqual('{\n}');
   const expectedOut2 = fs.readFileSync(makePath('expected-output2.txt'), 'utf-8');
   expect(genDiff(path1, empty)).toEqual(expectedOut2);
-})
+});
