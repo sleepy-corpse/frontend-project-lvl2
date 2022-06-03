@@ -13,5 +13,5 @@ jobs:
         env: 
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          coverageCommand: NODE_OPTIONS=--experimental-vm-modules npx jest --coverage --coverageProvider=v8
+          coverageCommand: make coverage
           debug: true
