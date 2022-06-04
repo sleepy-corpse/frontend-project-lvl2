@@ -23,3 +23,12 @@ test('empty files', () => {
   const expectedOut2 = fs.readFileSync(makePath('expected-output2.txt'), 'utf-8');
   expect(genDiff(path1, empty)).toEqual(expectedOut2);
 });
+
+test('yaml support', () => {
+  const path3 = makePath('data3.yml');
+  const path4 = makePath('data4.yaml');
+  const expectedOut3 = fs.readFileSync(makePath('expected-output3.txt'), 'utf-8');
+  expect(genDiff(path3, path4)).toEqual(expectedOut3);
+  const path1 = makePath('data1.json');
+  expect(genDiff(path1, path4)).toEqual(expectedOut3);
+});

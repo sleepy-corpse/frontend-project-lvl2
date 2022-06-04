@@ -1,0 +1,4 @@
+host: hexlet.io
+timeout: 50
+proxy: 666.666.66.66
+available: true
