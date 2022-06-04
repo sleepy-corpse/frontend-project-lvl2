@@ -6,4 +6,8 @@
 ## gendiff
 Compares two configuration files and shows a difference.
 
+### JSON files
 [![asciicast](https://asciinema.org/a/MdoABcubaUlebnm9WWWn3k2O0.svg)](https://asciinema.org/a/MdoABcubaUlebnm9WWWn3k2O0)
+
+### YAML files
+[![asciicast](https://asciinema.org/a/qenpgGavqQZ2vg1ic7c6F9p7l.svg)](https://asciinema.org/a/qenpgGavqQZ2vg1ic7c6F9p7l)
