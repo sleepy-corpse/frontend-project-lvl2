@@ -1,4 +1,9 @@
-host: "hexlet.io"
-timeout: 50
-proxy: 123.234.53.22
-follow: false
+plain: nothing to see here
+nested:
+  key1: that's
+  key2: much
+  key3: more
+  key4: interesting
+  key5:
+    nested-key: hope it works
+another-plain: boring

@@ -1,4 +1,12 @@
-host: hexlet.io
-timeout: 50
-proxy: 666.666.66.66
-available: true
+plain: nothing to see here
+nested:
+  key1: hello there
+  key2: much
+  key3: more
+  key4: interesting
+  not-key5:
+    setting1: some info
+    setting2:
+      option1: 1
+      option2: 2
+another-plain: not boring

@@ -1,8 +1,22 @@
 {
-  + available: true
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  + proxy: 666.666.66.66
-    timeout: 50
+  - another-plain: boring
+  + another-plain: not boring
+    nested: {
+      - key1: that's
+      + key1: hello there
+        key2: much
+        key3: more
+        key4: interesting
+      - key5: {
+            nested-key: hope it works
+        }
+      + not-key5: {
+            setting1: some info
+            setting2: {
+                option1: 1
+                option2: 2
+            }
+        }
+    }
+    plain: nothing to see here
 }

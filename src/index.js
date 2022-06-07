@@ -2,6 +2,7 @@ import * as fs from 'node:fs';
 import { resolve, extname } from 'node:path';
 import _ from 'lodash';
 import parse from './parsers.js';
+import formatter from './formatter.js';
 
 const makeAbsolutePath = (path) => resolve(process.cwd(), path);
 
@@ -12,27 +13,35 @@ const makeObj = (filePath) => {
   return parse(fileContent, format);
 };
 
-const genDiff = (path1, path2) => {
+const isObj = (arg) => _.isObject(arg) && !Array.isArray(arg);
+
+const deleteDuplicates = (array) => array.reduce((acc, item, index) => {
+  if (index === 0) {
+    return [...acc, item];
+  }
+  return acc.at(-1) === item ? [...acc] : [...acc, item];
+}, []);
+
+const makePlain = (name, value1, value2) => [name,
+  { value1: _.cloneDeep(value1), value2: _.cloneDeep(value2) },
+];
+
+const genDiff = (path1, path2, format = 'stylish') => {
   const [fileObj1, fileObj2] = [makeObj(path1), makeObj(path2)];
-  const keys = [...Object.keys(fileObj1), ...Object.keys(fileObj2)];
-  const sortedKeys = _.sortBy(keys);
-  const result = sortedKeys.reduce((acc, key, index) => {
-    if (sortedKeys[index] === sortedKeys[index - 1]) {
-      return acc;
-    }
-    if (key !== sortedKeys[index + 1]) {
-      const fileSign = Object.hasOwn(fileObj1, key) ? '-' : '+';
-      const value = fileSign === '-' ? fileObj1[key] : fileObj2[key];
-      return [...acc, `  ${fileSign} ${key}: ${value}\n`];
-    }
-    const value1 = fileObj1[key];
-    const value2 = fileObj2[key];
-    if (value1 === value2) {
-      return [...acc, `    ${key}: ${value1}\n`];
-    }
-    return [...acc, `  - ${key}: ${value1}\n  + ${key}: ${value2}\n`];
-  }, []);
-  return `{\n${result.join('')}}`;
+  const iter = (obj1, obj2) => {
+    const keys = [...Object.keys(obj1), ...Object.keys(obj2)];
+    const sortedKeys = deleteDuplicates(_.sortBy(keys));
+    const diff = sortedKeys.reduce((acc, key) => {
+      if (isObj(obj1[key]) && isObj(obj2[key])) {
+        const subDiff = iter(obj1[key], obj2[key]);
+        return [...acc, [key, [...subDiff]]];
+      }
+      return [...acc, makePlain(key, obj1[key], obj2[key])];
+    }, []);
+    return diff;
+  };
+  const formattingFunction = formatter(format);
+  return formattingFunction(iter(fileObj1, fileObj2));
 };
 
 export default genDiff;
