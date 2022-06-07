@@ -11,3 +11,6 @@ Compares two configuration files and shows a difference.
 
 ### YAML files
 [![asciicast](https://asciinema.org/a/qenpgGavqQZ2vg1ic7c6F9p7l.svg)](https://asciinema.org/a/qenpgGavqQZ2vg1ic7c6F9p7l)
+
+### Nested diff
+[![asciicast](https://asciinema.org/a/ggswiXoik9SXrqEm4Io9QcAqz.svg)](https://asciinema.org/a/ggswiXoik9SXrqEm4Io9QcAqz)
