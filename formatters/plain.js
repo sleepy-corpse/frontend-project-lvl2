@@ -26,18 +26,19 @@ export default (diff) => {
       if (keys.includes('value1') && keys.includes('value2')) {
         const val1 = formatValue(values.value1);
         const val2 = formatValue(values.value2);
-        return `Property '${previousKey}${key}' was updated. From ${val1} to ${val2}\n`;
+        return `Property '${previousKey}${key}' was updated. From ${val1} to ${val2}`;
       }
       if (!keys.includes('value1') && !keys.includes('value')) {
         const val2 = formatValue(values.value2);
-        return `Property '${previousKey}${key}' was added with value: ${val2}\n`;
+        return `Property '${previousKey}${key}' was added with value: ${val2}`;
       }
       if (keys.includes('value1') && !keys.includes('value2')) {
-        return `Property '${previousKey}${key}' was removed\n`;
+        return `Property '${previousKey}${key}' was removed`;
       }
       return '';
     });
-    return formattedDiff.join('');
+    const filteredDiff = formattedDiff.filter((str) => str.length > 0);
+    return filteredDiff.join('\n');
   };
   return iter(diff, '');
 };
