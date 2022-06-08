@@ -17,3 +17,6 @@ Compares two configuration files and shows a difference.
 
 ### Plain format
 [![asciicast](https://asciinema.org/a/FDAsJMrpLWhKH8WTYTiIPVWT1.svg)](https://asciinema.org/a/FDAsJMrpLWhKH8WTYTiIPVWT1)
+
+### JSON format
+[![asciicast](https://asciinema.org/a/FzXsmnbjKwWj7P6U1qYz52Der.svg)](https://asciinema.org/a/FzXsmnbjKwWj7P6U1qYz52Der)

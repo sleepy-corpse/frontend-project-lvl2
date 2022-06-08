@@ -37,3 +37,10 @@ test('plain fromat', () => {
   const expectedOut4 = fs.readFileSync(makePath('expected-output4.txt'), 'utf-8');
   expect(genDiff(path1, path2, 'plain')).toEqual(expectedOut4);
 });
+
+test('json fromat', () => {
+  const path1 = makePath('data1.json');
+  const path2 = makePath('data2.json');
+  const expectedOut5 = fs.readFileSync(makePath('expected-output5.txt'), 'utf-8');
+  expect(genDiff(path1, path2, 'json')).toEqual(expectedOut5);
+});

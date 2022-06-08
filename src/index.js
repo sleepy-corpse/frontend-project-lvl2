@@ -42,8 +42,8 @@ const genDiff = (path1, path2, format = 'stylish') => {
     }, []);
     return diff;
   };
-  const formattingFunction = formatter(format);
-  return formattingFunction(iter(fileObj1, fileObj2));
+  const rawDiff = iter(fileObj1, fileObj2);
+  return formatter(rawDiff, format);
 };
 
 export default genDiff;
