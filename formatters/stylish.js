@@ -1,4 +1,7 @@
 import _ from 'lodash';
+import {
+  hasNestedDiff, getDiffValues, getKey, getChildren,
+} from '../src/diff-functions.js';
 
 const stringify = (data, outerDepth) => {
   const iter = (depth, dataIter) => {
@@ -19,37 +22,32 @@ const stringify = (data, outerDepth) => {
   return iter(outerDepth, data);
 };
 
-const isUndefined = (value) => value === undefined;
-
 const stylish = (diff) => {
   const iterat = (depth, subDiff) => {
     const formattedDiff = subDiff.map((diffItem) => {
-      const name = diffItem[0];
+      const name = getKey(diffItem);
       const spaces = ' '.repeat(depth * 4 - 2);
       const closingSpaces = ' '.repeat(depth * 4);
-      if (Array.isArray(diffItem[1])) {
-        return `${spaces}  ${name}: {\n${iterat(depth + 1, diffItem[1])}${closingSpaces}}\n`;
+      if (hasNestedDiff(diffItem)) {
+        return `${spaces}  ${name}: {\n${iterat(depth + 1, getChildren(diffItem))}${closingSpaces}}\n`;
       }
-      const val1 = diffItem[1].value1;
-      const val2 = diffItem[1].value2;
-      const str1 = !isUndefined(val1) ? `${spaces}- ${name}: ${stringify(val1, depth + 1)}` : '';
-      const str2 = !isUndefined(val2) ? `${spaces}+ ${name}: ${stringify(val2, depth + 1)}` : '';
-      if (val1 === val2) {
-        return `${spaces}  ${name}: ${stringify(val1, depth + 1)}`;
-      }
-      return `${str1}${str2}`;
+      const values = getDiffValues(diffItem);
+      return Object.keys(values).reduce((acc, key) => {
+        switch (key) {
+          case 'value1':
+            return `${acc}${spaces}- ${name}: ${stringify(values[key], depth + 1)}`;
+          case 'value2':
+            return `${acc}${spaces}+ ${name}: ${stringify(values[key], depth + 1)}`;
+          case 'value':
+            return `${spaces}  ${name}: ${stringify(values[key], depth + 1)}`;
+          default:
+            return acc;
+        }
+      }, '');
     });
     return formattedDiff.join('');
   };
   return `{\n${iterat(1, diff)}}`;
 };
 
-const formatter = (string) => {
-  switch (string) {
-    case 'stylish':
-      return stylish;
-    default:
-      return () => 'wrong formatter name';
-  }
-};
-export default formatter;
+export default stylish;

@@ -14,3 +14,6 @@ Compares two configuration files and shows a difference.
 
 ### Nested diff
 [![asciicast](https://asciinema.org/a/ggswiXoik9SXrqEm4Io9QcAqz.svg)](https://asciinema.org/a/ggswiXoik9SXrqEm4Io9QcAqz)
+
+### Plain format
+[![asciicast](https://asciinema.org/a/FDAsJMrpLWhKH8WTYTiIPVWT1.svg)](https://asciinema.org/a/FDAsJMrpLWhKH8WTYTiIPVWT1)

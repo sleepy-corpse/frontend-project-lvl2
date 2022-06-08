@@ -30,3 +30,10 @@ test('yaml support', () => {
   const expectedOut3 = fs.readFileSync(makePath('expected-output3.txt'), 'utf-8');
   expect(genDiff(path3, path4, 'stylish')).toEqual(expectedOut3);
 });
+
+test('plain fromat', () => {
+  const path1 = makePath('data1.json');
+  const path2 = makePath('data2.json');
+  const expectedOut4 = fs.readFileSync(makePath('expected-output4.txt'), 'utf-8');
+  expect(genDiff(path1, path2, 'plain')).toEqual(expectedOut4);
+});
