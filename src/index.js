@@ -1,5 +1,5 @@
-import * as fs from 'node:fs';
-import { resolve, extname } from 'node:path';
+import * as fs from 'fs';
+import { resolve, extname } from 'path';
 import _ from 'lodash';
 import parse from './parsers.js';
 import formatter from '../formatters/index.js';
