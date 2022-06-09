@@ -1,0 +1,4 @@
+Property 'another-plain' was updated. From 'boring' to 'not boring'
+Property 'nested.key1' was updated. From 'that's' to 'hello there'
+Property 'nested.key5' was removed
+Property 'nested.not-key5' was added with value: [complex value]

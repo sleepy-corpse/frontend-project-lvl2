@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {
   hasNestedDiff, getDiffValues, getKey, getChildren,
-} from '../src/diff-functions.js';
+} from '../utilsFormatters.js';
 
 const stringify = (data, outerDepth) => {
   const iter = (depth, dataIter) => {

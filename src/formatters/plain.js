@@ -1,6 +1,6 @@
 import {
   getKey, hasNestedDiff, getDiffValues, getChildren,
-} from '../src/diff-functions.js';
+} from '../utilsFormatters.js';
 
 const formatValue = (value) => {
   switch (typeof value) {
