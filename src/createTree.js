@@ -22,7 +22,7 @@ const makePlain = (key, value1, value2) => {
 
 const createTree = (obj1, obj2) => {
   const keys = _.union(Object.keys(obj1), Object.keys(obj2));
-  const sortedKeys = keys.sort();
+  const sortedKeys = _.sortBy(keys);
   const diff = sortedKeys.reduce((acc, key) => {
     if (isObj(obj1[key]) && isObj(obj2[key])) {
       const subDiff = createTree(obj1[key], obj2[key]);
