@@ -1,7 +1,9 @@
+import _ from 'lodash';
+
 const getNodeType = (diffItem) => diffItem.type;
 
 const getNodeValues = (diffItem) => {
-  if (Object.hasOwn(diffItem, 'val2')) {
+  if (_.has(diffItem, 'val2')) {
     return [diffItem.val1, diffItem.val2];
   }
   return [diffItem.val];
