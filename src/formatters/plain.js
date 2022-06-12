@@ -1,8 +1,8 @@
 import {
-  getKey, hasNestedDiff, getDiffValues, getChildren,
+  getNodeKey, getNodeChildren, getNodeType, getNodeValues,
 } from '../utilsFormatters.js';
 
-const formatValue = (value) => {
+const format = (value) => {
   switch (typeof value) {
     case 'string':
       return `'${value}'`;
@@ -16,26 +16,25 @@ const formatValue = (value) => {
 
 export default (diff) => {
   const iter = (subDiff, previousKey) => {
-    const formattedDiff = subDiff.map((diffItem) => {
-      const key = getKey(diffItem);
-      if (hasNestedDiff(diffItem)) {
-        return iter(getChildren(diffItem), `${previousKey}${key}.`);
+    const formattedDiff = subDiff.map((node) => {
+      const nodeType = getNodeType(node);
+      const nodeKey = getNodeKey(node);
+      const nodeValues = getNodeValues(node);
+      switch (nodeType) {
+        case 'nested': {
+          const children = getNodeChildren(node);
+          return iter(children, `${previousKey}${nodeKey}.`);
+        }
+        case 'changed': {
+          return `Property '${previousKey}${nodeKey}' was updated. From ${format(nodeValues[0])} to ${format(nodeValues[1])}`;
+        }
+        case 'deleted':
+          return `Property '${previousKey}${nodeKey}' was removed`;
+        case 'added':
+          return `Property '${previousKey}${nodeKey}' was added with value: ${format(nodeValues[0])}`;
+        default:
+          return '';
       }
-      const values = getDiffValues(diffItem);
-      const keys = Object.keys(values);
-      if (keys.includes('value1') && keys.includes('value2')) {
-        const val1 = formatValue(values.value1);
-        const val2 = formatValue(values.value2);
-        return `Property '${previousKey}${key}' was updated. From ${val1} to ${val2}`;
-      }
-      if (!keys.includes('value1') && !keys.includes('value')) {
-        const val2 = formatValue(values.value2);
-        return `Property '${previousKey}${key}' was added with value: ${val2}`;
-      }
-      if (keys.includes('value1') && !keys.includes('value2')) {
-        return `Property '${previousKey}${key}' was removed`;
-      }
-      return '';
     });
     const filteredDiff = formattedDiff.filter((str) => str.length > 0);
     return filteredDiff.join('\n');

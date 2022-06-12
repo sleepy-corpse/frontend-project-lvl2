@@ -1,13 +1,16 @@
-import _ from 'lodash';
+const getNodeType = (diffItem) => diffItem.type;
 
-const hasNestedDiff = (diffItem) => Array.isArray(diffItem[1]);
+const getNodeValues = (diffItem) => {
+  if (Object.hasOwn(diffItem, 'val2')) {
+    return [diffItem.val1, diffItem.val2];
+  }
+  return [diffItem.val];
+};
 
-const getDiffValues = (diffItem) => _.get(diffItem, ['1']);
+const getNodeKey = (diffItem) => diffItem.key;
 
-const getKey = (diffItem) => diffItem[0];
-
-const getChildren = (diffItem) => diffItem[1];
+const getNodeChildren = (diffItem) => diffItem.children;
 
 export {
-  hasNestedDiff, getDiffValues, getKey, getChildren,
+  getNodeValues, getNodeKey, getNodeChildren, getNodeType,
 };

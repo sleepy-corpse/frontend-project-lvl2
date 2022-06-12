@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import {
-  hasNestedDiff, getDiffValues, getKey, getChildren,
+  getNodeKey, getNodeChildren, getNodeType, getNodeValues,
 } from '../utilsFormatters.js';
 
 const stringify = (data, outerDepth) => {
@@ -24,26 +24,31 @@ const stringify = (data, outerDepth) => {
 
 const stylish = (diff) => {
   const iterat = (depth, subDiff) => {
-    const formattedDiff = subDiff.map((diffItem) => {
-      const name = getKey(diffItem);
-      const spaces = ' '.repeat(depth * 4 - 2);
-      const closingSpaces = ' '.repeat(depth * 4);
-      if (hasNestedDiff(diffItem)) {
-        return `${spaces}  ${name}: {\n${iterat(depth + 1, getChildren(diffItem))}${closingSpaces}}\n`;
-      }
-      const values = getDiffValues(diffItem);
-      return Object.keys(values).reduce((acc, key) => {
-        switch (key) {
-          case 'value1':
-            return `${acc}${spaces}- ${name}: ${stringify(values[key], depth + 1)}`;
-          case 'value2':
-            return `${acc}${spaces}+ ${name}: ${stringify(values[key], depth + 1)}`;
-          case 'value':
-            return `${spaces}  ${name}: ${stringify(values[key], depth + 1)}`;
-          default:
-            return acc;
+    const spaces = ' '.repeat(depth * 4 - 2);
+    const closingSpaces = ' '.repeat(depth * 4);
+    const formattedDiff = subDiff.map((node) => {
+      const nodeType = getNodeType(node);
+      const nodeKey = getNodeKey(node);
+      const nodeValues = getNodeValues(node);
+      switch (nodeType) {
+        case 'nested': {
+          const children = getNodeChildren(node);
+          return `${spaces}  ${nodeKey}: {\n${iterat(depth + 1, children)}${closingSpaces}}\n`;
         }
-      }, '');
+        case 'changed': {
+          const line1 = `${spaces}- ${nodeKey}: ${stringify(nodeValues[0], depth + 1)}`;
+          const line2 = `${spaces}+ ${nodeKey}: ${stringify(nodeValues[1], depth + 1)}`;
+          return `${line1}${line2}`;
+        }
+        case 'unchanged':
+          return `${spaces}  ${nodeKey}: ${stringify(nodeValues[0], depth + 1)}`;
+        case 'deleted':
+          return `${spaces}- ${nodeKey}: ${stringify(nodeValues[0], depth + 1)}`;
+        case 'added':
+          return `${spaces}+ ${nodeKey}: ${stringify(nodeValues[0], depth + 1)}`;
+        default:
+          return '';
+      }
     });
     return formattedDiff.join('');
   };
